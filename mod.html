@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+<title>CodePen - Front End Day 80 - Operating System Forms</title>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu|Raleway'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<style>
+html, body {
+  padding: 0px;
+  margin: 0px;
+  background: #222;
+  font-family: 'Ubuntu', sans-serif;
+  color: #FFF;
+}
+
+body {
+  padding: 0px 10px;
+}
+body * {
+  box-sizing: border-box;
+  
+  padding: 0px;
+  margin: 0px;
+}
+
+.window {
+max-width: 600px;
+  min-width: 420px;
+  margin: 20px auto 0px auto;
+}
+
+.microsoft {
+  font-family: 'Raleway', sans-serif;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  animation: openwindows 0.2s;
+  transform-origin: bottom center;
+}
+.microsoft .header {
+  display: flex;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 40px;
+  font-weight: 100;
+  height: 40px;
+  background: #449;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+}
+.microsoft .header .title {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0px 10px;
+  display: flex;
+}
+.microsoft .header .title .icon {
+  width: 30px;
+  position: relative;
+  display: inline-block;
+  top: 6px;
+}
+.microsoft .header .title .text {
+  height: 25px;
+  top: 7px;
+  position: relative;
+  padding: 0px 8px;
+  line-height: 25px;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+.microsoft .header .buttons {
+  display: flex;
+  width: 160px;
+  height: 30px;
+}
+.microsoft .header .buttons .btn {
+  flex: 1;
+  text-align: center;
+}
+.microsoft .header .buttons .btn:hover {
+  cursor: pointer;
+}
+.microsoft .header .buttons .btn:hover.minus {
+  background: rgba(0, 0, 0, 0.25);
+}
+.microsoft .header .buttons .btn:hover.expand {
+  background: rgba(0, 0, 0, 0.25);
+}
+.microsoft .header .buttons .btn:hover.close {
+  background: rgba(150, 0, 0, 0.5);
+}
+.microsoft .header .buttons .btn i {
+  position: relative;
+  display: inline-block;
+  top: -1px;
+  font-size: 20px;
+}
+.microsoft .form {
+  min-height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ubuntu {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  animation: hide 0.5s, openwindows 0.25s;
+  animation-delay: 0s, 0.5s;
+}
+.ubuntu .header {
+  height: 30px;
+  line-height: 30px;
+  display: flex;
+  border-radius: 6px 6px 0px 0px;
+  background: linear-gradient(#333, #323232);
+  border: 1px solid #333;
+  border-bottom: none;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  position: relative;
+}
+.ubuntu .header .buttons {
+  width: 80px;
+  padding: 0px 8px;
+  display: flex;
+}
+.ubuntu .header .buttons .btn {
+  flex: 1;
+  display: inline-block;
+  text-align: center;
+}
+.ubuntu .header .buttons .btn i {
+  position: relative;
+  top: 0px;
+  font-size: 11px;
+  width: 17px;
+  height: 17px;
+  left: 0px;
+  padding-left: 0px;
+  line-height: 15px;
+  background: #444;
+  color: rgba(255, 255, 255, 0.25);
+  border-radius: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: linear-gradient(#555, #434343);
+}
+.ubuntu .header .buttons .btn i:hover {
+  background: linear-gradient(#fa6531, #E95420);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+.ubuntu .header .title {
+  flex: 1;
+  z-index: 0;
+  padding-left: 5px;
+}
+.ubuntu .form {
+  min-height: 80px;
+  background: #AEA79F;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.macos {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  animation: hide 1s, openwindows 0.25s;
+  animation-delay: 0s, 1s;
+}
+.macos .header {
+  display: flex;
+  border-radius: 5px 5px 0px 0px;
+  padding: 0px 8px;
+  background: linear-gradient(#f6f6f6, #e0dee0);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.01);
+  position: relative;
+  z-index: 1;
+  height: 25px;
+  line-height: 26px;
+}
+.macos .header .buttons {
+  width: 75px;
+  display: flex;
+}
+.macos .header .buttons:hover {
+  cursor: pointer;
+}
+.macos .header .buttons:hover i {
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+.macos .header .buttons:hover .close i {
+  background: #d86258;
+  color: #222;
+}
+.macos .header .buttons:hover .minus i {
+  background: #f0bd4e;
+  color: #222;
+}
+.macos .header .buttons:hover .expand i {
+  background: #64ca57;
+  color: #222;
+  transform: rotateZ(-45deg);
+}
+.macos .header .buttons .btn {
+  display: inline-block;
+  flex: 1;
+}
+.macos .header .buttons .btn i {
+  font-size: 10px;
+  border-radius: 100%;
+  background: #ccc;
+  color: #ccc;
+  border: 1px solid #bbb;
+  width: 14px;
+  height: 14px;
+  line-height: 12px;
+  text-align: center;
+}
+.macos .header .title {
+  color: #666;
+  display: inline-block;
+  width: 100%;
+  height: 25px;
+}
+.macos .header .title .text, .macos .header .title .icon {
+  height: 25px;
+  line-height: 26px;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 12px;
+}
+.macos .header .title .text i, .macos .header .title .icon i {
+  padding: 0px 3px;
+  position: relative;
+  top: 4px;
+  font-size: 18px;
+  color: #444;
+}
+.macos .form {
+  min-height: 80px;
+  background: #FFF;
+  border-radius: 0px 0px 5px 5px;
+  border-top: 1px solid #cdcdcd;
+}
+
+@keyframes hide {
+  to, from {
+    opacity: 0;
+  }
+}
+@keyframes openwindows {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.tab {
+  overflow: auto;
+  border: 1px solid black;
+  background-color: black;
+
+    height: 50%;
+	
+
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: #111;
+  float: left;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  padding: 14px 16px;
+  width: 20%; /* Four links of equal widths */
+  text-align: center;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #449;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #449;
+}
+
+/* Style the tab content */
+.tabcontent {
+   font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+   opacity: 0.7;
+  color: white;
+   padding: 8px;
+  border-top: none;
+   line-height: 1.6;
+  	 min-height: 400px;
+  background: #111;
+
+  justify-content: center;
+  align-items: center;
+}
+.simple-switch-input {
+ font-size: 18px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+}
+
+.simple-switch {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-transition: .4s all;
+  transition: .4s all;
+ font-size: 18px;
+
+  background: #bbb;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 14px;
+  outline: 0;
+  cursor: pointer;
+  position: absolute;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  display: inline-block;
+left: 60%;
+
+ 
+
+}
+
+/* switch background */
+.simple-switch-input:checked ~ .simple-switch {
+  background: #449;
+ 
+  transition: .25s all;
+}
+.simple-switch-input:checked ~ .simple-switch.dark {
+  background: #449;
+
+}
+.simple-switch-input:checked ~ .simple-switch::before {
+  transform: translate(18px, 0);
+  background: #449;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0 0 16px rgba(0, 108, 181, 0);
+}
+.simple-switch-input:checked ~ .simple-switch.dark::before {
+  background: #449;
+}
+.simple-switch-input ~ .simple-switch::before {
+  content: '';
+  transition: .26s all;
+  position: absolute;
+  left: 0px;
+  top: -3px;
+  bottom: 2px;
+  right: auto;
+  transform: translate(0, 0);
+  display: block;
+  width: 20px;
+  height: 20px;
+  
+  background: #449;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0 0 16px rgba(0, 108, 181, 0);
+}
+
+/* switch circle */
+.simple-switch.dark:active::before {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0 0 16px rgba(89, 189, 255, 0.6);
+}
+
+.slidecontainer {
+  width: 100%;
+  
+
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 180px;
+  height: 18px;
+  background: #d3d3d3;
+  outline: none;
+  left: 54.5%;
+position: absolute;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #449;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #449;
+  cursor: pointer;
+}
+
+
+</style>
+<script>
+  window.console = window.console || function(t) {};
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+</head>
+<body translate="no">
+<div class="window microsoft">
+<div class="header">
+<div class="title">
+<div class="icon"><i class="material-icons">folder</i></div>
+<div class="text">Infinity [Premium]</div>
+</div>
+<div class="buttons">
+<div class="btn minus"> <i class="material-icons">remove</i></div>
+<div class="btn expand"> <i class="material-icons">crop_square</i></div>
+<div class="btn close"> <i class="material-icons">close</i></div>
+</div>
+</div>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'London')">Combat</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris')">Movement</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Player</button>
+    <button class="tablinks" onclick="openCity(event, 'Dallas')">Render</button>
+	  <button class="tablinks" onclick="openCity(event, 'Atlanta')">Settings</button>
+</div>
+<div id="London" class="tabcontent">
+
+<div>
+<label>Aimbot
+<input type="checkbox" id="Aimbot" onclick="changeHash('Aimbot')" class="simple-switch-input" /><span class="simple-switch dark"></span>
+</label>
+</div>
+
+
+
+<div>
+<label> Auto Click
+<input type="checkbox" id="Ac" onclick="changeHash('Ac')" class="simple-switch-input" /><span class="simple-switch dark"></span>
+</label>
+</div>
+
+
+
+
+<div>
+<label>Hitbox
+<input type="checkbox" id="Hitbox" onclick="changeHash('Hitbox')" class="simple-switch-input" /><span class="simple-switch dark"></span>
+</label>
+</div>
+
+<div>
+<label> Reach
+<input type="checkbox" id="Reach" onclick="changeHash('Reach')" class="simple-switch-input" /><span class="simple-switch dark"></span>
+</label>
+</div>
+</div>
+<div id="Atlanta" class="tabcontent">
+
+<div>
+<label> Aimbot Distance
+ <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+</label>
+</div>
+
+<div>
+<label> Auto Click Delay
+ <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+</label>
+</div>
+
+
+
+
+</div>
+</body>
+</html>
+
+
+<script>
+
+
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function changeHash(idSwitch) {
+  // Get the checkbox
+  var checkBox = document.getElementById(idSwitch);
+  if (checkBox.checked){
+   window.location.hash = '#'+idSwitch+'On';
+  } else {
+    window.location.hash = '#'+idSwitch+'Off';
+  }
+}
+    function changeHashPot(idSwitch) {
+  // Get the checkbox
+  var checkBox = document.getElementById(idSwitch);
+  if (checkBox.checked){
+   window.location.hash = '#'+idSwitch+'On#'+rangeAmp.value+'#'+rangeDur.value;
+  } else {
+    window.location.hash = '#'+idSwitch+'Off';
+  }
+}
+
+    function hashLink(idSwitch) {
+   window.location.hash = '#'+idSwitch;
+   setTimeout(hashLink, 1500);
+   window.location.hash = '#';
+}
+</script>
